@@ -1,28 +1,25 @@
 <script setup>
 import CreateComponentVue from './components/CreateComponent.vue'
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-
+import Header from './components/HeaderComponent.vue'
 </script>
 
 <template>
-  <router-view></router-view>
-  <!-- <header> -->
-    <!-- <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
+ 
+   <!-- <header> -->
+    <!-- <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />-->
+   <!-- </header> -->
+  <Header />
+  <main>
+     <router-view></router-view>
+   </main>
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div> -->
-  <!-- </header> -->
-
-  <!-- <main> -->
-    <!-- <TheWelcome /> -->
-    <!-- <CreateComponentVue /> -->
-  <!-- </main> -->
 </template>
 
 <style scoped>
-header {
+main{
+  margin: 5%;
+}
+/* header {
   line-height: 1.5;
 }
 
@@ -47,5 +44,6 @@ header {
     place-items: flex-start;
     flex-wrap: wrap;
   }
-}
+} */
+
 </style>
