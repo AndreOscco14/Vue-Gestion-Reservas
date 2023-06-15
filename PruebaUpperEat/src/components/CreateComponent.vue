@@ -45,8 +45,6 @@ export default {
         horaReserva: this.horaReserva,
       };
 
-      console.log("DATOS", reserva);
-
       try {
         // Envía la solicitud POST al backend utilizando axios
         const sendBack= await axios.post('http://localhost:3000/api/register', reserva);
