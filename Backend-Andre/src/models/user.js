@@ -37,7 +37,8 @@ db.run(`
     nombreCliente TEXT NOT NULL,
     numeroPersonas INTEGER NOT NULL,
     fechaReserva TEXT NOT NULL,
-    horaReserva TEXT NOT NULL
+    horaReserva TEXT NOT NULL,
+    estado TEXT
   );
 `, (err) => {
   if (err) {
@@ -46,5 +47,32 @@ db.run(`
     console.log('Table "users" created.');
   }
 });
+
+// Se añade la columna ESTADO
+// db.run(`
+//   ALTER TABLE users ADD COLUMN estado TEXT;
+// `, (err) => {
+//   if (err) {
+//     console.error(err.message);
+//   } else {
+//     console.log('Column "estado" added.');
+//   }
+// });
+
+// db.run(`
+//   CREATE TABLE reserva_estado (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     reserva_id INTEGER,
+//     estado TEXT NOT NULL,
+//     fecha_actualizacion TEXT NOT NULL,
+//     FOREIGN KEY(reserva_id) REFERENCES users(id)
+//   );
+// `, (err) => {
+//   if (err) {
+//     console.error(err.message);
+//   } else {
+//     console.log('Table "reserva_estado" created.');
+//   }
+// });
 
 module.exports = db

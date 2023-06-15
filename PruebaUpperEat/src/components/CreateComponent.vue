@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Crear una reserva</h2>
+    <h2>Reservar</h2>
     <form @submit.prevent="crearReserva" class="reservation-form">
       <div class="form-group">
         <label for="nombre">Nombre del cliente:</label>
@@ -87,6 +87,11 @@ export default {
   border-radius: 10px;
   padding: 10px 20px;
   cursor: pointer;
+}
+
+h2{
+  text-align: center;
+  margin: 5%;
 }
 
 .btn-create:hover {

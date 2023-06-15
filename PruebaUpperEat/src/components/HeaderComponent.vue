@@ -1,10 +1,10 @@
 <template>
   <header>
     <nav>
-      <router-link to="/create" class="nav-link">Crear</router-link>
-      <router-link to="/read" class="nav-link">Leer</router-link>
-      <router-link to="/update" class="nav-link">Actualizar</router-link>
-      <router-link to="/delete" class="nav-link">Eliminar</router-link>
+      <router-link to="/create" class="nav-link">Crear Reserva</router-link>
+      <router-link to="/read" class="nav-link">Listado Reservas</router-link>
+      <!-- <router-link to="/update" class="nav-link">Actualizar</router-link>
+      <router-link to="/delete" class="nav-link">Eliminar</router-link> -->
     </nav>
   </header>
 </template>
@@ -18,7 +18,7 @@ header {
 
 nav {
   display: flex;
-  justify-content: space-between;
+  text-align: center;
 }
 
 nav a {

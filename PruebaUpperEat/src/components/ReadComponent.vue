@@ -20,7 +20,12 @@
           <p class="reserva-data">{{ reserva.horaReserva }}</p>
         </div>
         <div class="reserva-info">
+        <h3 class="reserva-title-estado">Estado:</h3>
+        <p class="reserva-data-estado">{{ reserva.estado }}</p>
+      </div>
+        <div class="reserva-info">
           <button class="reserva-button" @click="modificarEstado(reserva)">Modificar Estado</button>
+          <button class="reserva-button-eliminar" @click="eliminarReserva(reserva)">Eliminar</button>
         </div>
       </div>
     </div>
@@ -48,15 +53,31 @@ export default {
         console.error(error);
       }
     },
-    async modificarEstado(reserva) {
-      const nuevoEstado = prompt('Ingrese el nuevo estado de la reserva:');
-      if (nuevoEstado) {
-        reserva.estado = nuevoEstado;
-        try {
-          await axios.put(`http://localhost:3000/api/reservas/${reserva.id}`, reserva);
-        } catch (error) {
-          console.error(error);
-        }
+
+ async modificarEstado(reserva) {
+  const nuevoEstado = prompt('Ingrese el nuevo estado de la reserva:');
+  if (nuevoEstado) {
+    reserva.estado = nuevoEstado;
+    try {
+      await axios.put(`http://localhost:3000/api/reservas/${reserva.id}`, { estado: nuevoEstado });
+
+      // const index = this.reservas.findIndex(r => r.id === reserva.id);
+      // if (index !== -1) {
+      //   this.reservas[index].estado = nuevoEstado;
+      // }
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+},
+
+  async eliminarReserva(reserva) {
+      try {
+        await axios.delete(`http://localhost:3000/api/reservasDelete/${reserva.id}`);
+    this.obtenerReservas()
+      }catch (error) { 
+        console.error(error);
       }
     },
   },
@@ -64,6 +85,11 @@ export default {
 </script>
 
 <style scoped>
+
+.reserva-data-estado{
+  color: red;
+}
+
 .box {
   border-radius: 5px;
   padding: 20px;
@@ -106,6 +132,16 @@ export default {
 .reserva-data {
   margin: 0;
   color: #777777;
+}
+
+.reserva-button-eliminar{
+  margin-left: 3%;
+   padding: 10px 20px;
+  background-color: #c92626;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .reserva-button {
