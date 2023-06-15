@@ -3,8 +3,9 @@ const router = Router();
 
 const db = require('../models/user');
 
-
+// =====================================================================
 //*----------------------- Registrarse SQLite---------------------------
+// =====================================================================
 router.post('/register', (req, res) => {
   const { nombreCliente, numeroPersonas, fechaReserva, horaReserva } = req.body;
     const sql = 'INSERT INTO users  (nombreCliente, numeroPersonas, fechaReserva, horaReserva) VALUES (?, ?, ?, ?)';
@@ -21,7 +22,9 @@ router.post('/register', (req, res) => {
   });
 
 
-//* ------------------------- Enviar datos Usuarios al Front ---------------------------
+// ====================================================================================
+//* ------------------------- Enviar datos Usuarios al Front --------------------------
+// ====================================================================================
 router.get('/reservas', (req, res) => {
   const sql = 'SELECT * FROM users';
 
@@ -35,11 +38,13 @@ router.get('/reservas', (req, res) => {
   });
 });
 
+
+// =========================================================================
 //* ------------------------- Actualizar Estados ---------------------------
+// =========================================================================
 router.put('/reservas/:id', (req, res) => {
   const id = req.params.id;
-  const nuevoEstado = req.body;
-  console.log(id);
+  const nuevoEstado = req.body.estado;
   // Actualiza el estado en la tabla `users`
   db.run('UPDATE users SET estado = ? WHERE id = ?', [nuevoEstado, id], (err) => {
     if (err) {
@@ -51,7 +56,10 @@ router.put('/reservas/:id', (req, res) => {
   });
 });
 
+
+// =======================================================================
 //* ------------------------- ELIMINAR Estados ---------------------------
+// =========================================================================
 router.delete('/reservasDelete/:id', (req, res) => {
   const id = req.params.id;
   // Realiza la operación de eliminación en la base de datos usando el ID

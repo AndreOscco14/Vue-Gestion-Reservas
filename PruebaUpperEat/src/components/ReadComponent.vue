@@ -60,12 +60,6 @@ export default {
     reserva.estado = nuevoEstado;
     try {
       await axios.put(`http://localhost:3000/api/reservas/${reserva.id}`, { estado: nuevoEstado });
-
-      // const index = this.reservas.findIndex(r => r.id === reserva.id);
-      // if (index !== -1) {
-      //   this.reservas[index].estado = nuevoEstado;
-      // }
-
     } catch (error) {
       console.error(error);
     }
