@@ -13,6 +13,7 @@
 header {
   padding: 20px;
   margin: 10px;
+  font-size: 20px;
 }
 
 nav {

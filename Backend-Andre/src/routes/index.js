@@ -16,11 +16,23 @@ router.post('/register', (req, res) => {
         console.error(err.message);
         return res.status(500).json({ error: 'Error al guardar la reserva' });
       }
-      // Envía una respuesta con éxito
+      // Envía una respuesta con éxito al fronted
       res.json({ message: 'Reserva guardada correctamente' });
     });
   });
 //* ------------------------- Enviar datos Usuarios al Front ---------------------------
+router.get('/reservas', (req, res) => {
+  const sql = 'SELECT * FROM users';
+
+  db.all(sql, [], (err, rows) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).json({ error: 'Error al obtener las reservas' });
+    }
+
+    res.json(rows);
+  });
+});
 
   
 module.exports = router
