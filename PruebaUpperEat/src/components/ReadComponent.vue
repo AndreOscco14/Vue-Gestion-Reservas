@@ -1,9 +1,18 @@
 <template>
   <div class="box">
     <h2 class="title">Listado de Reservas</h2>
+    <div class="reserva-info">
+  <label for="filtroEstado" class="reserva-label">Filtrar por estado:</label>
+  <select id="filtroEstado" v-model="filtroEstado" class="reserva-select" @change="filtrarReservas">
+    <option value="Todas">Todas</option>
+    <option value="Pendiente">Pendiente</option>
+    <option value="Confirmada">Confirmada</option>
+    <option value="Cancelada">Cancelada</option>
+    <option value="Completada">Completada</option>
+  </select>
+</div>
     <div class="reserva-list">
       <div v-for="reserva in reservas" :key="reserva.id" class="reserva-item">
-
 
         <div class="reserva-info">
           <h3 class="reserva-title">Reserva de:</h3>
@@ -12,15 +21,12 @@
         <input v-else class="reserva-input" v-model="reserva.nombreCliente" type="text">
        </div>
 
-
         <div class="reserva-info">
           <h3 class="reserva-title">Número de personas:</h3>
           <!-- <p class="reserva-data">{{ reserva.numeroPersonas }}</p> -->
              <p v-if="!reservaEditando || reservaEditando.id !== reserva.id" class="reserva-data">{{ reserva.numeroPersonas }}</p>
              <input v-else class="reserva-input" v-model="reserva.numeroPersonas" type="text">
         </div>
-
-
 
         <div class="reserva-info">
           <h3 class="reserva-title">Fecha de reserva:</h3>
@@ -29,8 +35,6 @@
                <input v-else class="reserva-input" v-model="reserva.fechaReserva" type="text">
         </div>
 
-
-
         <div class="reserva-info">
           <h3 class="reserva-title">Hora de reserva:</h3>
           <!-- <p class="reserva-data">{{ reserva.horaReserva }}</p> -->
@@ -38,14 +42,10 @@
         <input v-else class="reserva-input" v-model="reserva.horaReserva" type="text">
         </div>
 
-
-
         <div class="reserva-info">
         <h3 class="reserva-title">Estado:</h3>
         <p class="reserva-data-estado">{{ reserva.estado }}</p>
       </div>
-
-
 
       <div class="reserva-info">
         <label for="nuevoEstado" class="reserva-label">Seleccionar estado:</label>
@@ -78,14 +78,31 @@ export default {
   data() {
     return {
       reservas: [],
+      reservasFiltradas: [],
       nuevoEstadoSeleccionado: '',
-      reservaEditando: null
+      reservaEditando: null,
+      filtroEstado: 'Todas'
     };
   },
   created() {
     this.obtenerReservas();
   },
   methods: {
+
+// =====================================================================
+//                            F I L T R A D O
+// =====================================================================
+  filtrarReservas() {
+    if (this.filtroEstado === 'Todas') {
+      // Si el estado seleccionado es "Todas", se muestran todas las reservas
+      this.obtenerReservas();
+      this.reservas = reservasFiltradas;
+    } else {
+      // Filtra las reservas por estado
+      const reservasFiltradas = this.reservas.filter(reserva => reserva.estado === this.filtroEstado);
+      this.reservas = reservasFiltradas;
+    }
+  },
 
 // =====================================================================
 //                  O B T E N E R         R E S E R V A S

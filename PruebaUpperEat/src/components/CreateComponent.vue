@@ -21,6 +21,9 @@
       <button type="submit" class="btn-create">Crear reserva</button>
     </form>
   </div>
+      <div v-if="mensajeReserva">
+        <p>{{ mensajeReserva }}</p>
+      </div>
 </template>
 
 <script>
@@ -33,6 +36,7 @@ export default {
       numeroPersonas: null,
       fechaReserva: '',
       horaReserva: '',
+      mensajeReserva: '',
     };
   },
   methods: {
@@ -48,13 +52,25 @@ export default {
       try {
         // Envía la solicitud POST al backend utilizando axios
         const sendBack= await axios.post('http://localhost:3000/api/register', reserva);
+        this.mensajeReserva = sendBack.data.message;
+        this.resetForm();
         // respuesta del backend
-        console.log(sendBack.data);
+       alert(sendBack.data.message);
       } catch (error) {
         // manejar cualquier error de la solicitud, como mostrar un mensaje de error al usuario
         console.error(error);
       }
     },
+
+// resetear El formulario
+    resetForm() {
+        this.nombreCliente = '';
+        this.numeroPersonas = null;
+        this.fechaReserva = '';
+        this.horaReserva = '';
+        this.mensajeReserva = '';
+      },
+
   },
 };
 </script>
