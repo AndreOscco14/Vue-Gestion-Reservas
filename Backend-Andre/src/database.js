@@ -9,10 +9,3 @@ const db = new sqlite3.Database('./database.sqlite', (err) => {
 });
 
 module.exports = db;
-
-// * Conexión con MongoDB (Mongoose)
-// const mongoose = require('mongoose');
-
-// mongoose.connect('mongodb://localhost/angular-auth')
-// .then(db => console.log('Database is conecct'))
-// .catch(err => console.log(err))

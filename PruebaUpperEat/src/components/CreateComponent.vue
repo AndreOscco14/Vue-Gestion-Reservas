@@ -23,6 +23,45 @@
   </div>
 </template>
 
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      nombreCliente: '',
+      numeroPersonas: null,
+      fechaReserva: '',
+      horaReserva: '',
+    };
+  },
+  methods: {
+    async crearReserva() {
+      // Crea un objeto con los datos del formulario
+      const reserva = {
+        nombreCliente: this.nombreCliente,
+        numeroPersonas: this.numeroPersonas,
+        fechaReserva: this.fechaReserva,
+        horaReserva: this.horaReserva,
+      };
+
+      console.log("DATOS", reserva);
+
+      try {
+        // Envía la solicitud POST al backend utilizando axios
+        const sendBack= await axios.post('http://localhost:3000/api/register', reserva);
+        // respuesta del backend
+        console.log(sendBack.data);
+      } catch (error) {
+        // manejar cualquier error de la solicitud, como mostrar un mensaje de error al usuario
+        console.error(error);
+      }
+    },
+  },
+};
+</script>
+
+
 <style scoped>
 .reservation-form {
   max-width: 400px;
