@@ -39,6 +39,25 @@ router.get('/reservas', (req, res) => {
 });
 
 
+// ==================================================================================
+//* ------------------------- ACTUALIZAR DATOS DE RESERVA ---------------------------
+// ==================================================================================
+router.put('/reservasModificadas/:id', (req, res) => {
+  const id = req.params.id;
+  const { nombreCliente, numeroPersonas, fechaReserva, horaReserva } = req.body;
+  const sql = 'UPDATE users SET nombreCliente = ?, numeroPersonas = ?, fechaReserva = ?, horaReserva = ? WHERE id = ?';
+  const values = [nombreCliente, numeroPersonas, fechaReserva, horaReserva, id];
+
+  db.run(sql, values, (err) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).json({ error: 'Error al actualizar la reserva' });
+    }
+
+    res.json({ message: 'Reserva actualizada correctamente' });
+  });
+});
+
 // =========================================================================
 //* ------------------------- Actualizar Estados ---------------------------
 // =========================================================================

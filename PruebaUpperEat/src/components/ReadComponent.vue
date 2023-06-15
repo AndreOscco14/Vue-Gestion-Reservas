@@ -3,27 +3,51 @@
     <h2 class="title">Listado de Reservas</h2>
     <div class="reserva-list">
       <div v-for="reserva in reservas" :key="reserva.id" class="reserva-item">
+
+
         <div class="reserva-info">
           <h3 class="reserva-title">Reserva de:</h3>
-          <p class="reserva-data">{{ reserva.nombreCliente }}</p>
-        </div>
+          <!-- <p class="reserva-data">{{ reserva.nombreCliente }}</p> -->
+        <p v-if="!reservaEditando || reservaEditando.id !== reserva.id" class="reserva-data">{{ reserva.nombreCliente }}</p>
+        <input v-else class="reserva-input" v-model="reserva.nombreCliente" type="text">
+       </div>
+
+
         <div class="reserva-info">
           <h3 class="reserva-title">Número de personas:</h3>
-          <p class="reserva-data">{{ reserva.numeroPersonas }}</p>
+          <!-- <p class="reserva-data">{{ reserva.numeroPersonas }}</p> -->
+             <p v-if="!reservaEditando || reservaEditando.id !== reserva.id" class="reserva-data">{{ reserva.numeroPersonas }}</p>
+             <input v-else class="reserva-input" v-model="reserva.numeroPersonas" type="text">
         </div>
+
+
+
         <div class="reserva-info">
           <h3 class="reserva-title">Fecha de reserva:</h3>
-          <p class="reserva-data">{{ reserva.fechaReserva }}</p>
+          <!-- <p class="reserva-data">{{ reserva.fechaReserva }}</p> -->
+               <p v-if="!reservaEditando || reservaEditando.id !== reserva.id" class="reserva-data">{{ reserva.fechaReserva }}</p>
+               <input v-else class="reserva-input" v-model="reserva.fechaReserva" type="text">
         </div>
+
+
+
         <div class="reserva-info">
           <h3 class="reserva-title">Hora de reserva:</h3>
-          <p class="reserva-data">{{ reserva.horaReserva }}</p>
+          <!-- <p class="reserva-data">{{ reserva.horaReserva }}</p> -->
+        <p v-if="!reservaEditando || reservaEditando.id !== reserva.id" class="reserva-data">{{ reserva.horaReserva }}</p>
+        <input v-else class="reserva-input" v-model="reserva.horaReserva" type="text">
         </div>
+
+
+
         <div class="reserva-info">
         <h3 class="reserva-title">Estado:</h3>
         <p class="reserva-data-estado">{{ reserva.estado }}</p>
       </div>
-        <div class="reserva-info">
+
+
+
+      <div class="reserva-info">
         <label for="nuevoEstado" class="reserva-label">Seleccionar estado:</label>
         <select id="nuevoEstado" v-model="nuevoEstadoSeleccionado" class="reserva-select">
           <option value="Pendiente">Pendiente</option>
@@ -32,6 +56,12 @@
           <option value="Completada">Completada</option>
         </select>
       </div>
+
+   <div class="reserva-info">
+        <button v-if="!reservaEditando" class="reserva-button" @click="editarReserva(reserva)">Editar Datos</button>
+        <button v-else class="reserva-button" @click="guardarEdicion(reserva)">Guardar</button>
+      </div>
+
         <div class="reserva-info">
           <button class="reserva-button" @click="modificarEstado(reserva)">Actualizar Estado</button>
           <button class="reserva-button-eliminar" @click="eliminarReserva(reserva)">Eliminar</button>
@@ -48,13 +78,18 @@ export default {
   data() {
     return {
       reservas: [],
-      nuevoEstadoSeleccionado: ''
+      nuevoEstadoSeleccionado: '',
+      reservaEditando: null
     };
   },
   created() {
     this.obtenerReservas();
   },
   methods: {
+
+// =====================================================================
+//                  O B T E N E R         R E S E R V A S
+// =====================================================================
     async obtenerReservas() {
       try {
         const response = await axios.get('http://localhost:3000/api/reservas');
@@ -66,6 +101,30 @@ export default {
       }
     },
 
+// =====================================================================
+//                 E D I T A R        R E S E R V A S
+// =====================================================================
+    editarReserva(reserva) {
+      this.reservaEditando = { ...reserva };
+    },
+
+      async guardarEdicion(reserva) {
+      try {
+            const { nombreCliente, numeroPersonas, fechaReserva, horaReserva } = reserva;
+             const datosActualizados = { nombreCliente, numeroPersonas, fechaReserva, horaReserva };
+        console.log("DATOS ACTUALIZADOS", this.reservaEditando);
+        await axios.put(`http://localhost:3000/api/reservasModificadas/${this.reservaEditando.id}`,datosActualizados);
+        console.log('Reserva editada correctamente');
+        this.reservaEditando = null;
+        this.obtenerReservas();
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+// =====================================================================
+//               M O D I F I C A R      E S T A D O S
+// =====================================================================
  async modificarEstado(reserva) {
   // const nuevoEstado = prompt('Ingrese el nuevo estado de la reserva:');
   if (this.nuevoEstadoSeleccionado) {
@@ -80,6 +139,10 @@ export default {
   }
 },
 
+
+// =====================================================================
+//                 E L I M I N A R    R E S E R V A S
+// =====================================================================
   async eliminarReserva(reserva) {
       try {
         await axios.delete(`http://localhost:3000/api/reservasDelete/${reserva.id}`);
@@ -93,8 +156,8 @@ export default {
 };
 </script>
 
-<style scoped>
 
+<style scoped>
 .reserva-data-estado{
   color: rgb(220, 165, 14);
   font-size: 20px;
